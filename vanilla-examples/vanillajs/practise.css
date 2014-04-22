@@ -1,0 +1,10 @@
+
+#todoapp {
+	margin: 0 auto;
+}
+
+#todoapp header h1 {
+	font-size: 20px;
+	width: 100%;
+	text-align: center;
+}

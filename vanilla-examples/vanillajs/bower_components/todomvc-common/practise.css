@@ -1,16 +1,27 @@
+*,
+body
+ {
+	padding: 0;
+	margin: 0;
+	font-size: 10px;
+}
+
 
 #todoapp {
-	width: 20em;
+	width: 28em;
 	margin: 0 auto 0 auto;
 }
 
 #todoapp header h1 {
+	font-size: 2.8em;
 	text-align: center;
+	padding: 1.4em 0;
 }
 
 #todoapp header input#new-todo {
-	width: 20em;
-	height: 2em;
+	width: 28em;
+	height: 3.2em;
+	text-indent: 2em;
 }
 #todoapp #main {
 	position: relative;
@@ -19,10 +30,49 @@
 #todoapp #main #toggle-all {
 	position: absolute;
 	display: block;
-	width: 2em;
-	height: 2em;
 	top: -2em;
+}
 
+#todoapp #main #toggle-all:before {
+	content: "<<";
+}
+
+#todoapp #main label {
+	margin-left: -1000em;
+	display: block;
+	height: 0.1em;
+}
+
+#footer {
+	background-color: #ccc;
+	border: 1px solid #FFF;
+	overflow: hidden;
+	padding: 0.4em;
+	position: relative;
+}
+
+#footer #filters {
+	list-style-type: none;
+	position: absolute;
+	left: 2em;
+}
+
+#footer #filters li {
+	float: left;
+	margin-right: 1em;
+}
+
+#footer #filters li a {
+	font-size: 1.2em;
+	display: block;
+	padding: 0.2em 1em;
+	text-decoration: none;
+	color: #000;
+	background-color: green;
+}
+
+#footer #clear-completed {
+	float: right;
 }
 
 /* 

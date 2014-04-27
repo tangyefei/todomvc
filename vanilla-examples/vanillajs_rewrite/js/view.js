@@ -42,11 +42,14 @@
 	}
 
 	View.prototype.clearCompleted = function  () {
-		for (var i = todoList.children.length - 1; i >= 0; i--) {
+		qsa('.completed').forEach(function(item){
+			todoList.removeChild(item);
+		});
+		/*for (var i = todoList.children.length - 1; i >= 0; i--) {
 			if(todoList.children[i].className == 'completed'){
 				todoList.removeChild(todoList.children[i]);
 			}
-		}
+		}*/
 	}
 
 	View.prototype.updateCompletedCount = function (count) {

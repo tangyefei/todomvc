@@ -1,4 +1,4 @@
-(function() {
+(function(window) {
 
 	function Store(name)
 	{
@@ -91,4 +91,4 @@
 	}
 	window.app = window.app || {};
 	window.app.Store = Store;
-})();
+})(window);

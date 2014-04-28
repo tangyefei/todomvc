@@ -6,21 +6,23 @@
 	var toggleAll = document.getElementById('toggle-all');
 	var filters = document.getElementById('filters');
 
-	var template = 
-		'<div class="view">' +
-		'	<input class="toggle" type="checkbox">' +
-		'	<label>{todo_item}</label><button class="destroy"></button>' +
-		'</div>'
-
 	function View()
 	{
+		this.template = new app.Template();
 	}
 	
+	View.prototype.setNavHrefCls = function(activeRoute) {
+		var href = '#/' + activeRoute.substr(0,1).toUpperCase() + activeRoute.substr(1);
+		var prev = qs('#filters .selected');
+		var curr = qs('#filters a[href="' + href + ']');
+		if(prev)
+			prev.className = '';
+		if(curr)
+			curr.className = 'selected';
+	}
+	//------------------------------------------------------------------//
 	View.prototype.renderOne = function(todo) {
-		var li = document.createElement('li');
-		li.className = (todo.value == true ? 'completed' : '') ;
-		li.innerHTML = template.replace('{todo_item}', todo.name);
-		todoList.appendChild(li);
+		todoList.innerHTML = todoList.innerHTML + this.template.show(todo);
 	}
 
 	View.prototype.clearInput = function() {
@@ -45,24 +47,14 @@
 		qsa('.completed').forEach(function(item){
 			todoList.removeChild(item);
 		});
-		/*for (var i = todoList.children.length - 1; i >= 0; i--) {
-			if(todoList.children[i].className == 'completed'){
-				todoList.removeChild(todoList.children[i]);
-			}
-		}*/
 	}
 
 	View.prototype.updateCompletedCount = function (count) {
-		clearBtn.innerHTML =  'Clear completed (' + count + ')'
+		clearBtn.innerHTML = this.template.clearCompleted(count);
 	}
 
 	View.prototype.updateNotCompletedCount = function (count) {
-
-		countLbl.innerHTML = '';
-		if(count != 0)
-		{
-			countLbl.innerHTML = '<strong>' + count + '</strong> not completed';
-		}
+		countLbl.innerHTML = this.template.notCompleted(count);
 	}
 
 	View.prototype.updateSelected = function (status) {

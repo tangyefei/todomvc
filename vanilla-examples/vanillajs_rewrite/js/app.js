@@ -24,6 +24,8 @@ todo learning progress:
 */
 (function(){
 
+	
+/*
 	document.addEventListener('click', function(ev) {
 		if(ev.target.nodeName == "A" && ev.target.parentNode.parentNode.id == "filters") 
 		{
@@ -102,14 +104,30 @@ todo learning progress:
 		view.updateCompletedCount(store.findAll(app.COMPLETED).length);
 		view.updateNotCompletedCount(store.findAll(app.ACTIVE).length);	
 	}
+*/
 
+	// var store = new app.Store('vanillajs-todomvc');
+	// var view = new app.View();
+	// var helper = new Helper();
+	function Todo(name) {
+		//this.view = new app.View();
+		this.store = new app.Store(name);
+		this.template = new app.Template();
+		this.view = new app.View(this.template);
+		this.controller = new app.Controller(this.view);
+	}
+	var todo = new Todo('vanillajs-todomvc');
 
-	var store = new app.Store('vanillajs-todomvc');
-	var view = new app.View();
-	var helper = new Helper();
-	app.status = helper.getStatus(null);
+	function setView() {
+		todo.controller.setView(window.location.hash);
+	}
 
-	view.renderAll(store.findAll(app.status));
-	updateCount();
-	view.updateSelected(app.status);
+	$on(window, 'load', setView);
+	$on(window, 'hashchange', setView);
+		
+		/*app.status = helper.getStatus(null);
+
+		view.renderAll(store.findAll(app.status));
+		updateCount();
+		view.updateSelected(app.status);*/
 })();	

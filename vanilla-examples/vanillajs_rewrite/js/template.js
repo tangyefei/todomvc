@@ -2,7 +2,7 @@
 
 	function Template() {
 		this.defaultTemplate = 
-			'<li class={{completed}}>' +
+			'<li data-id={{id}} class={{completed}}>' +
 			'	<div class="view">' +
 			'		<input class="toggle" type="checkbox" {{checked}} />' +
 			'		<label>{{title}}</label><button class="destroy"></button>' +
@@ -10,24 +10,30 @@
 			'</li>';
 	}
 
-	Template.prototype.show = function(todoItem) {
-		var completed = todoItem.value ? 'completed' : '';
-		var checked = todoItem.value ? 'checked' : '';
-		var tp = this.defaultTemplate
-			.replace('{{title}}',todoItem.name)
-			.replace('{{completed}}', completed)
-			.replace('{{checked}}', checked);
+	Template.prototype.getTodosHTML = function(todos) {
+		var html = '';
+		for (var i = todos.length - 1; i >= 0; i--) {
+			var todoItem = todos[i];
+			var completed = todoItem.value ? 'completed' : '';
+			var checked = todoItem.value ? 'checked' : '';
+			html += this.defaultTemplate
+				.replace('{{id}}', todoItem.id)
+				.replace('{{title}}', todoItem.name)
+				.replace('{{completed}}', completed)
+				.replace('{{checked}}', checked);
+		}
 
-		return tp;
+		return html;
 	}
 
-	Template.prototype.clearCompleted = function(completedCount) {
- 		return 'Clear completed (' + completedCount + ')';
+	Template.prototype.getItemNotCompletedHTML = function(count) {
+		return '<strong>' + count + '</strong> not completed';
 	}
 
-	Template.prototype.notCompleted = function(leftCount) {
-		return leftCount > 0 ? ('<strong>' + leftCount + '</strong> not completed') : '';
+	Template.prototype.getClearCompletedBtnHTML = function(count) {
+ 		return 'Clear completed (' + count + ')';
 	}
+
 
 	window.app = window.app || {};
 	window.app.Template = Template;

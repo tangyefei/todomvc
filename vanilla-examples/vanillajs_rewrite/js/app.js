@@ -24,6 +24,24 @@ todo learning progress:
 */
 (function(){
 
+	function Todo(name) {
+		//this.view = new app.View();
+		this.store = new app.Store(name);
+		this.model = new app.Model(this.store);
+		this.template = new app.Template();
+		this.view = new app.View(this.template);
+		this.controller = new app.Controller(this.model, this.view);
+	}
+
+	var todo = new Todo('vanillajs-todomvc');
+
+	function setView() {
+		todo.controller.setView(window.location.hash);
+	}
+
+	$on(window, 'load', setView);
+	$on(window, 'hashchange', setView);
+
 	
 /*
 	document.addEventListener('click', function(ev) {
@@ -109,21 +127,7 @@ todo learning progress:
 	// var store = new app.Store('vanillajs-todomvc');
 	// var view = new app.View();
 	// var helper = new Helper();
-	function Todo(name) {
-		//this.view = new app.View();
-		this.store = new app.Store(name);
-		this.template = new app.Template();
-		this.view = new app.View(this.template);
-		this.controller = new app.Controller(this.view);
-	}
-	var todo = new Todo('vanillajs-todomvc');
-
-	function setView() {
-		todo.controller.setView(window.location.hash);
-	}
-
-	$on(window, 'load', setView);
-	$on(window, 'hashchange', setView);
+	
 		
 		/*app.status = helper.getStatus(null);
 

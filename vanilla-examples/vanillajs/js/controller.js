@@ -57,6 +57,7 @@
 		this._updateFilterState(page);
 	};
 
+
 	/**
 	 * An event to fire on load. Will get all items and display them in the
 	 * todo-list
@@ -77,6 +78,50 @@
 			that.view.render('showEntries', data);
 		});
 	};
+
+
+	controller.setView {
+		"active"
+		controller.updateFilterState {
+			
+			controller.filter {
+				"Acitve"
+				controller.updatCount {
+					countObj = model.getCount();
+					view.updateElementCount {
+						itemCount.innerHTML = template.itemCount {
+							return balabala
+						}
+					}
+					view.clearCompletedButton{
+						clearButton.innerHTML = template.clearButton {
+							return balabala
+						}	
+					}
+					view.toggleAll{
+						$toggle.checked = option.checked;
+					}
+					view.contentBlockVisibility{
+						$main.display = option.visible;
+						$footer.display = option.visible;
+					}
+				}
+				controller.showActive {
+					var todos = model.read({param:...});
+					view.showEntries(todos) {
+						$todoList.innerHTML = template.show(todos) {
+					}
+				}
+			}
+			view.setFilter {
+				.class = 'selected' : '';
+			}
+
+		}
+	}
+
+
+
 
 	/**
 	 * Renders all completed tasks
@@ -224,7 +269,7 @@
 			that.view.render('contentBlockVisibility', {visible: todos.total > 0});
 		});
 	};
-
+	
 	/**
 	 * Re-filters the todo items, based on the active route.
 	 * @param {boolean|undefined} force  forces a re-painting of todo items.
@@ -245,6 +290,7 @@
 		this._lastActiveRoute = activeRoute;
 	};
 
+
 	/**
 	 * Simply updates the filter nav's selected states
 	 */
@@ -261,6 +307,7 @@
 
 		this.view.render('setFilter', currentPage);
 	};
+
 
 	// Export to window
 	window.app = window.app || {};

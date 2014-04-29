@@ -109,6 +109,7 @@
 			todos.forEach(function(todo){
 				that.removeTodo(todo.id);
 			})
+			that.updateCount();
 		});
 	}
 
@@ -118,6 +119,7 @@
 
 		this.model.toggle({id:id}, function(todo){
 			that.view.updateStatus(todo);
+			that.updateCount();
 		});
 	}
 

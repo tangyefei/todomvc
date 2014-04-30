@@ -50,7 +50,7 @@
 		var that = this;
 		if(type === 'newTodo') {
 			$on(that.$newTodo, 'change', function() {
-				handler.call(that, that.$newTodo.value);
+				handler.call(that, that.$newTodo.completed);
 			});
 		}
 		else if(type === 'removeTodo') {
@@ -65,9 +65,22 @@
 				handler.call(that);
 			});
 		}
-		else if(type === 'toggle') {
-			$live('.toggle', 'click', function(event) {
-				handler.call(that,$parent(this, 'li'));
+		else if(type === 'toggleCompleted') {
+			$live('.toggle', 'click', function(){
+				var li = $parent(this, 'li');
+				var id = li.dataset.id;
+				var input = qs('input', li);
+				handler(id,{
+					completed: input.checked
+				});	
+			});
+		}
+
+		else if(type === 'toggleAll') {
+			$live('#toggle-all', 'click', function(){
+				handler({
+					completed: this.checked
+				});	
 			});
 		}
 	}
@@ -81,10 +94,10 @@
 		this.$todoList.removeChild(li);
 	}
 
-	View.prototype.updateStatus = function(todo) {
-		var li = qs('li[data-id="' + todo.id + '"]');
-		li.className = (todo.value ? 'completed' : '');
-	};
+	View.prototype.toggleCompleted = function(id, option) {
+		var li = qs('li[data-id="' + id + '"]');
+		li.className = option.completed ? 'completed' : '';
+	}
 	//------------------------------------------------------------------//
 	View.prototype.renderOne = function(todo) {
 		todoList.innerHTML = todoList.innerHTML + this.template.show(todo);
@@ -102,7 +115,7 @@
 		{		
 			for (var i = 0; i < todos.length; i++) {
 				this.renderOne(todos[i]);
-				checked &= todos[i].value;
+				checked &= todos[i].completed;
 			}
 		}
 		toggleAll.checked = checked;

@@ -21,7 +21,7 @@
 
 		this.store.findAll(function(todos){
 			todos.forEach(function(todo){
-				if(todo.value)
+				if(todo.completed)
 					countObj.completed ++;
 				else
 					countObj.active ++;
@@ -34,8 +34,8 @@
 	Model.prototype.create = function(title, callback) {
 		var newTodo = {
 			id: new Date().getTime(),
-			name: title,
-			value: false
+			title: title,
+			completed: false
 		};		
 		this.store.save(newTodo, callback);
 	}
@@ -45,18 +45,11 @@
 		this.store.delete(id, callback);
 	}
 
-	Model.prototype.toggle = function(option, callback) {
-		var that = this;
-		this.store.find({id: option.id}, function(todos){
-			todos.forEach(function(todo) {
-				todo.value = !todo.value;
-				that.store.update(todo, function(){
-					callback.call(that, todo);
-				});
-			});
-		});
+	
+	Model.prototype.update = function(id, option, callback) {
+		this.store.save(option, callback, id);
 	}
-
+	
 	window.app = window.app || {};
 	window.app.Model = Model;
 })(window);

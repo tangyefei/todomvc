@@ -28,16 +28,33 @@
 		callback.call(this, todos);
 	}
 		
-	Store.prototype.save = function (todo, callback) {
+	Store.prototype.save = function (todo, callback, id) {
 		callback = callback || function  () {};
 		var storage = JSON.parse(localStorage[this.name]);
 		var todos = storage.todos;
 
-		localStorage[this.name] = JSON.stringify(storage);
-		callback.call(this);
+		if(id) {
+			for (var i = todos.length - 1; i >= 0; i--) {
+				if(id == todos[i].id) {
+					for( var key in todo) {
+						todos[i][key] = todo[key];
+					}
+					break;
+				}
+			}
+			localStorage[this.name] = JSON.stringify(storage);
+			callback.call(this, id, todo);
+		}
+		else
+		{
+			todos.push(todo);
+			localStorage[this.name] = JSON.stringify(storage);
+			callback.call(this);
+		}
+		
 	}
 
-	Store.prototype.update = function (todo, callback) {
+	/*Store.prototype.update = function (todo, callback) {
 		callback = callback || function  () {};
 		var storage = JSON.parse(localStorage[this.name]);
 		var todos = storage.todos;
@@ -51,6 +68,7 @@
 		localStorage[this.name] = JSON.stringify(storage);
 		callback.call(this);
 	}
+*/
 
 	Store.prototype.delete = function(id, callback) {
 		var storage = JSON.parse(localStorage[this.name]);

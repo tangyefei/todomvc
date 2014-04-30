@@ -14,11 +14,11 @@
 		var html = '';
 		for (var i = todos.length - 1; i >= 0; i--) {
 			var todoItem = todos[i];
-			var completed = todoItem.value ? 'completed' : '';
-			var checked = todoItem.value ? 'checked' : '';
+			var completed = todoItem.completed ? 'completed' : '';
+			var checked = todoItem.completed ? 'checked' : '';
 			html += this.defaultTemplate
 				.replace('{{id}}', todoItem.id)
-				.replace('{{title}}', todoItem.name)
+				.replace('{{title}}', todoItem.title)
 				.replace('{{completed}}', completed)
 				.replace('{{checked}}', checked);
 		}

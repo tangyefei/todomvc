@@ -18,9 +18,26 @@
 			that.clearCompleted();
 		});
 
-		that.view.bind('toggle', function(element){
-			that.toggle(element);
+		that.view.bind('toggleCompleted', function(id, option){
+			that.toggleCompleted(id, option);
 		});
+			
+		that.view.bind('toggleAll', function(option){
+			that.toggleAll(option);
+		});
+	
+		that.view.bind('editItem', function(id, title){
+			that.editItem(id, title);
+		});
+
+		that.view.bind('editItemCancel', function(id, title){
+			that.editItemCancel(id, title);
+		});		
+
+		that.view.bind('editItemDone', function(id, title){
+			that.editItemDone(id, title);
+		});		
+			
 	}
 
 	Controller.prototype.setView = function(hash) {
@@ -72,14 +89,14 @@
 
 	Controller.prototype.showActive = function() {
 		var that = this;
-		this.model.read({value:false}, function(todos){
+		this.model.read({completed:false}, function(todos){
 			that.view.showTodos(todos);
 		});
 	} 
 
 	Controller.prototype.showCompleted = function() {
 		var that = this;
-		this.model.read({value:true}, function(todos){
+		this.model.read({completed:true}, function(todos){
 			that.view.showTodos(todos);
 		});
 	} 
@@ -105,7 +122,7 @@
 
 	Controller.prototype.clearCompleted = function() {
 		var that = this;
-		that.model.read({value:true}, function(todos) {
+		that.model.read({completed:true}, function(todos) {
 			todos.forEach(function(todo){
 				that.removeTodo(todo.id);
 			})
@@ -113,13 +130,21 @@
 		});
 	}
 
-	Controller.prototype.toggle = function(element) {
-		var that = this;
-		var id = element.dataset['id'];
+	Controller.prototype.toggleCompleted = function(id, option) {
+		var that = this;		
+		that.model.update(id, option, function() {
+			that.view.toggleCompleted(id, option);
+		});
+	}
 
-		this.model.toggle({id:id}, function(todo){
-			that.view.updateStatus(todo);
+	Controller.prototype.toggleAll = function(option) {
+		var that = this;
+		that.model.read({completed: !option.completed}, function(todos) {
+			todos.forEach(function(todo) {
+				that.toggleCompleted(todo.id, {completed: option.completed});
+			})
 			that.updateCount();
+			that.showTodos();
 		});
 	}
 

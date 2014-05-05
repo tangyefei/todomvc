@@ -79,50 +79,6 @@
 		});
 	};
 
-
-	controller.setView {
-		"active"
-		controller.updateFilterState {
-			
-			controller.filter {
-				"Acitve"
-				controller.updatCount {
-					countObj = model.getCount();
-					view.updateElementCount {
-						itemCount.innerHTML = template.itemCount {
-							return balabala
-						}
-					}
-					view.clearCompletedButton{
-						clearButton.innerHTML = template.clearButton {
-							return balabala
-						}	
-					}
-					view.toggleAll{
-						$toggle.checked = option.checked;
-					}
-					view.contentBlockVisibility{
-						$main.display = option.visible;
-						$footer.display = option.visible;
-					}
-				}
-				controller.showActive {
-					var todos = model.read({param:...});
-					view.showEntries(todos) {
-						$todoList.innerHTML = template.show(todos) {
-					}
-				}
-			}
-			view.setFilter {
-				.class = 'selected' : '';
-			}
-
-		}
-	}
-
-
-
-
 	/**
 	 * Renders all completed tasks
 	 */

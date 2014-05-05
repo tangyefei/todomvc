@@ -30,16 +30,50 @@
 			that.editItem(id, title);
 		});
 
-		that.view.bind('editItemCancel', function(id, title){
-			that.editItemCancel(id, title);
+		that.view.bind('editItemCancel', function(id){
+			that.editItemCancel(id);
 		});		
 
 		that.view.bind('editItemDone', function(id, title){
-			that.editItemDone(id, title);
+			that.editItemSave(id, title);
 		});		
 			
 	}
 
+	Controller.prototype.editItem = function(id, title) {
+		var listItem = qs('[data-id="' + id + '"]');
+		if(!listItem)
+			return;
+
+		listItem.className = listItem.className + ' editing';
+		var input = document.createElement('input');
+		input.className = 'edit';
+		input.value = title;
+		input.focus(); 
+		listItem.appendChild(input);
+	}
+
+	Controller.prototype.editItemCancel = function(id) {
+		var that = this;
+		var listItem = qs('[data-id="' + id + '"]');
+		that.model.read({id:id}, function(data){
+			that.view.editItemDone(id, data[0].title);
+		});
+	}
+	
+	Controller.prototype.editItemSave = function(id, title) {
+		var todoList = qs('#todo-list');
+		var li = qs('[data-id="' + id + '"]');
+		var that = this;
+		if(title.trim() == '') {
+			todoList.removeChild(li);
+		}
+		else {
+			that.model.update(id, {title:title.trim()}, function() {
+				that.view.editItemDone(id, title);
+			});
+		}
+	}
 	Controller.prototype.setView = function(hash) {
 		// hash's value might: '#/'、'#/active'、'#/completed'
 		this._activeRoute = hash;

@@ -79,8 +79,17 @@ jQuery(function ($) {
 		},
 		render: function() {
 			this.$todoList.html(this.todoTemplate(this.todos));
+			this.$main.toggle(this.todos.length > 0);
+			this.$toggleAll.prop('checked', this.getActiveTodos().length == 0);
 			util.store(this.namespace, this.todos);
-		}
+
+		},
+
+		getActiveTodos: function() {
+			return this.todos.filter(function(todo) {
+				return !todo.completed;
+			});
+		},
 	};
 
 	App.init('todomvc-jquery-rewrite');

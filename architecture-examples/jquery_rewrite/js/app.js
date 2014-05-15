@@ -78,13 +78,6 @@ jQuery(function ($) {
 			list.on('dblclick', 'label', this.edit.bind(this));
 			list.on('keyup', '.edit', this.editKeyup.bind(this));
 			list.on('focusout', '.edit', this.update.bind(this));
-			/*this.$toggleAll.on('change', this.toggleAll.bind(this));
-			this.$footer.on('click', '#clear-completed', this.destroyCompleted.bind(this));
-			list.on('change', '.toggle', this.toggle.bind(this));
-			list.on('dblclick', 'label', this.edit.bind(this));
-			list.on('keyup', '.edit', this.editKeyup.bind(this));
-			list.on('focusout', '.edit', this.update.bind(this));
-			list.on('click', '.destroy', this.destroy.bind(this));*/
 		},
 		create: function(e) {
 			var $input = $(e.target);
@@ -120,7 +113,20 @@ jQuery(function ($) {
 		},
 
 		update: function(e) {
-			
+			var value = $(e.target).val();
+			var index = this.indexFromEl(e);
+			var isAbort = $(e.target).closest('li').data('abort');
+			if(isAbort) {
+				this.render();
+				return;
+			}
+			else  if(value.trim() == '') {
+				this.todos.splice(index, 1);
+			}
+			else {
+				this.todos[index].title = value.trim();
+			}
+			this.render();
 		},
 
 		toggleAll: function(e) {
@@ -157,7 +163,8 @@ jQuery(function ($) {
 		},
 
 		render: function() {
-			this.$todoList.html(this.todoTemplate(this.todos));
+			var todos = this.getFilterTodos();
+			this.$todoList.html(this.todoTemplate(todos));
 			this.$main.toggle(this.todos.length > 0);
 			this.$toggleAll.prop('checked', this.getActiveTodos().length == 0);
 			this.renderFooter();
@@ -181,6 +188,20 @@ jQuery(function ($) {
 				return !todo.completed;
 			});
 		},
+		getCompletedTodos: function() {
+			return this.todos.filter(function(todo) {
+				return todo.completed;
+			});
+		},
+		getFilterTodos: function() {
+			if(this.filter === 'active') {
+				return this.getActiveTodos();
+			}
+			else if(this.filter === 'completed') {
+				return this.getCompletedTodos();
+			}
+			return this.todos;
+		}
 	};
 
 	App.init('todomvc-jquery-rewrite');

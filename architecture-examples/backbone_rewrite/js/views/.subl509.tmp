@@ -1,0 +1,20 @@
+var app = app || {};
+
+(function  () {
+	'use strict';
+
+	app.AppView = Backbone.View.extend({
+		el: '#todoapp',
+
+		statsTemplate: _.template($('#stats-template').html()),
+
+		initialize: function() {
+			alert('initialize');
+		},
+
+		render: function() {
+
+		}
+
+	});
+})();

@@ -57,6 +57,7 @@
 		this._updateFilterState(page);
 	};
 
+
 	/**
 	 * An event to fire on load. Will get all items and display them in the
 	 * todo-list
@@ -224,7 +225,7 @@
 			that.view.render('contentBlockVisibility', {visible: todos.total > 0});
 		});
 	};
-
+	
 	/**
 	 * Re-filters the todo items, based on the active route.
 	 * @param {boolean|undefined} force  forces a re-painting of todo items.
@@ -245,6 +246,7 @@
 		this._lastActiveRoute = activeRoute;
 	};
 
+
 	/**
 	 * Simply updates the filter nav's selected states
 	 */
@@ -261,6 +263,7 @@
 
 		this.view.render('setFilter', currentPage);
 	};
+
 
 	// Export to window
 	window.app = window.app || {};

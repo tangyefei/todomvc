@@ -21,95 +21,28 @@ todo learning progress:
 	* count items not completed and completed
 	* clear completed item
 	* swich all item's request
+	* edit item
+		* edit item
+		* edit item cancel
+		* edit item save
 */
 (function(){
 
-	document.addEventListener('click', function(ev) {
-		if(ev.target.nodeName == "A" && ev.target.parentNode.parentNode.id == "filters") 
-		{
-			app.status = helper.getStatus(ev.target.href);
-			view.renderAll(store.findAll(app.status));
-			view.updateSelected(app.status);
-			return false;
-		}
-		if(ev.target.className == "destroy")
-		{
-			var li = ev.target.parentNode.parentNode;
-			var ul = li.parentNode;
-			for (var i = 0; i < ul.children.length; i++) {
-				if(li == ul.children[i])
-				{
-					store.remove(i, updateCount);
-					ul.removeChild(li);
-					break;
-				}
-			}
-			return false;
-		}
-		if(ev.target.id == "clear-completed")
-		{
-			store.clearCompleted(updateCount);
-			view.clearCompleted();
-			return false;
-		}
-		if(ev.target.id == 'toggle-all')
-		{
-			var todos = store.updateAll({value:ev.target.checked}, updateCount);
-			//TODO mark current status
-			view.renderAll(todos);
-			return false;
-		}
-		if(ev.target.className == "toggle")
-		{
-			var li = ev.target.parentNode.parentNode;
-			var ul = li.parentNode;
-			for (var i = 0; i < ul.children.length; i++) {
-				if(li == ul.children[i])
-				{
-					var completed = (li.className == 'completed');
-					li.className =  (completed ? '' : 'completed');
-					store.update(i, !completed, updateCount);
-					break;
-				}
-			}
-			return false;
-		}
-
-		if(ev.target !== newTodo) {
-			var newTodo = document.getElementById('new-todo');
-			if(newTodo.value && newTodo.value.trim() != '') {
-				addItem(new app.Todo(newTodo.value, false));
-			}
-		}
-	});
-
-	document.addEventListener('keyup', function  (ev) {
-		if(ev.keyCode == 13) {
-			var newTodo = document.getElementById('new-todo');
-			if(newTodo.value && newTodo.value.trim() != '') {
-				addItem(new app.Todo(newTodo.value, false));
-			}
-		}
-	});
-
-	function addItem(todo) {
-		view.renderOne(todo);
-		view.clearInput();
-		store.add(todo, updateCount);
+	function Todo(name) {
+		//this.view = new app.View();
+		this.store = new app.Store(name);
+		this.model = new app.Model(this.store);
+		this.template = new app.Template();
+		this.view = new app.View(this.template);
+		this.controller = new app.Controller(this.model, this.view);
 	}
 
-	function updateCount () {
-		view.updateCompletedCount(store.findAll(app.COMPLETED).length);
-		view.updateNotCompletedCount(store.findAll(app.ACTIVE).length);	
+	var todo = new Todo('vanillajs-todomvc');
+
+	function setView() {
+		todo.controller.setView(window.location.hash);
 	}
 
-
-	var store = new app.Store('vanillajs-todomvc');
-	var view = new app.View();
-	var helper = new Helper();
-	app.status = helper.getStatus(null);
-
-	view.renderAll(store.findAll(app.status));
-	updateCount();
-	view.updateSelected(app.status);
+	$on(window, 'load', setView);
+	$on(window, 'hashchange', setView);
 })();	

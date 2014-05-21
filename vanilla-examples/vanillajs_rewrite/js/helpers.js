@@ -19,13 +19,13 @@
 				var potentialElements = qsa(entry.selector);
 				var isMatch = Array.prototype.indexOf.call(potentialElements, event.target) >= 0;
 				if(isMatch)
-					entry.handler.call(event.target);
+					entry.handler.call(event.target, event);
 			});
 		}
 		return function(selector, event, handler){
 			if(!eventRegistry[event]) {
 				eventRegistry[event] = [];
-				$on(document.documentElement, event, handler, true);
+				$on(document.documentElement, event, dispatchEvent, true);
 			}
 			eventRegistry[event].push({
 				selector: selector,

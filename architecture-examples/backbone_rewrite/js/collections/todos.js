@@ -1,7 +1,7 @@
 var app = app || {};
 
 (function() {
-	Todos = Backbone.Collection.extend({
+	var Todos = Backbone.Collection.extend({
 
 		model:app.Todo,
 		

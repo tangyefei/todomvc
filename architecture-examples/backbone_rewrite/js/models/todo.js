@@ -1,7 +1,7 @@
 var app = app || {};
 
 (function() {
-	app.Model = Backbone.Model.extend({
+	app.Todo = Backbone.Model.extend({
 		defaults:{
 			title: '', 
 			completed: false

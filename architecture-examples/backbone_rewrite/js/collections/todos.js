@@ -11,6 +11,12 @@ var app = app || {};
 			if(!this.length)
 				return 1;
 			return this.last().get('order') + 1;
+		},
+
+		completed: function() {
+			return this.filter(function(todo) {
+				return todo.get('completed')
+			});
 		}
 	});
 
